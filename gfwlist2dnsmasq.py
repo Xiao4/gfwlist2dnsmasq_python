@@ -34,7 +34,11 @@ EX_DOMAIN=[ \
 '1e100.net', \
 'blogspot.tw' \
 ]
- 
+# Excluded domains;
+EXCLUDES=[ \
+'.m-team.cc' \
+]
+
 # the url of gfwlist
 baseurl = 'https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt'
 # match comments/title/whitelist/ip address
@@ -57,9 +61,21 @@ if hasattr(ssl, '_create_unverified_context'):
 content = urllib2.urlopen(baseurl, timeout=15).read().decode('base64')
  
 # write the decoded content to file then read line by line
-tfs = open(tmpfile, 'w')
+tfs = open(tmpfile+'.before', 'w')
 tfs.write(content)
 tfs.close()
+
+#exclude domains
+print 'remove excluded domains...'
+oldfile = open(tmpfile+'.before', 'r')
+newfile = open(tmpfile, 'w')
+
+for line in oldfile:
+        if not any(exclude in line for exclude in EXCLUDES):
+            newfile.write(line)
+oldfile.close()
+newfile.close()
+
 tfs = open(tmpfile, 'r')
  
 print 'page content fetched, analysis...'

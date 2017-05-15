@@ -54,6 +54,16 @@ EX_DOMAIN=[ \
 'blogspot.tw' \
 ]
 ```
+
+Add domains you want to exclude here. One domain in a line. eg:
+```python
+EXCLUDES=[ \
+'.m-team.cc' \
+]
+```
+
+
+
 Then run gfwlist2dnsmasq.py:
 ```bash
 python gfwlist2dnsmasq.py
